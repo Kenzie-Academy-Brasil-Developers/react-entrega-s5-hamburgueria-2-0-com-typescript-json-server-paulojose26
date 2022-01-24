@@ -13,8 +13,11 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { FiShoppingBag } from "react-icons/fi";
+import { useHistory } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import { Input } from "../../components/Form/Input";
+import { useUser } from "../../contexts/UserProvider";
 
 interface RegisterData {
   name: string;
@@ -24,13 +27,16 @@ interface RegisterData {
 }
 
 export const Register = () => {
+  const { SingUp } = useUser();
+  const history = useHistory();
+
   const loginSchema = yup.object().shape({
     name: yup.string().required("* Campo Obrigatório"),
     email: yup
       .string()
       .required("* Campo Obrigatório")
       .email("* E-mail Inválido"),
-    password: yup.string().required("* Campo Obrigatório"),
+    password: yup.string().required("* Campo Obrigatório").min(6, "Mínimo de 6 caracteres"),
     confirm_password: yup
       .string()
       .oneOf([yup.ref("password")], "* Senhas diferentes"),
@@ -45,7 +51,12 @@ export const Register = () => {
   });
 
   const handleLogin = (data: RegisterData) => {
-    console.log(data);
+    SingUp(data).then(() => {
+      history.push("/login");
+      toast.success("Cadastro Realizado !");
+    }).catch(() => {
+      toast.error("Esse email já está sendo utilizado");
+    });
   };
 
   return (
@@ -109,29 +120,37 @@ export const Register = () => {
             Cadastro
           </Heading>
           <Link
-            as={ RouteLink }
+            as={RouteLink}
             to="/login"
             color="gray.300"
             fontSize="sm"
             borderBottom="1px solid"
-            _hover={ { } }
+            _hover={{}}
           >
             Retornar para o login
           </Link>
         </Box>
         <VStack mt="20px" spacing="15px">
-          <Input placeholder="Nome" error={errors.name} {...register("name")} />
           <Input
+            type="text"
+            placeholder="Nome"
+            error={errors.name}
+            {...register("name")}
+          />
+          <Input
+            type="email"
             placeholder="E-mail"
             error={errors.email}
             {...register("email")}
           />
           <Input
+            type="password"
             placeholder="Senha"
             error={errors.password}
             {...register("password")}
           />
           <Input
+            type="password"
             placeholder="Confirme a senha"
             error={errors.confirm_password}
             {...register("confirm_password")}
@@ -147,7 +166,7 @@ export const Register = () => {
           fontSize="md"
           _hover={{ bg: "gray.300", color: "gray.50" }}
         >
-          Logar
+          Cadastrar
         </Button>
       </Flex>
     </Flex>

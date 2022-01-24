@@ -12,18 +12,20 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { FiShoppingBag } from "react-icons/fi";
 import { useHistory } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import { Input } from "../../components/Form/Input";
+import { useUser } from "../../contexts/UserProvider";
 
 interface LoginData {
   email: string;
   password: string;
 }
 
-
-
 export const Login = () => {
-    const history = useHistory();
+  const { SingIn } = useUser();
+  const history = useHistory();
+
   const loginSchema = yup.object().shape({
     email: yup
       .string()
@@ -41,7 +43,11 @@ export const Login = () => {
   });
 
   const handleLogin = (data: LoginData) => {
-    console.log(data);
+    SingIn(data).then(() => {
+      history.push("/");
+    }).catch(() => {
+      toast.error("E-mail e/ou senha está/ão errado(s)");
+    });
   };
 
   return (
@@ -74,11 +80,13 @@ export const Login = () => {
         </Heading>
         <VStack mt="20px" spacing="15px">
           <Input
+            type="text"
             placeholder="E-mail"
             error={errors.email}
             {...register("email")}
           />
           <Input
+            type="password"
             placeholder="Senha"
             error={errors.password}
             {...register("password")}
@@ -108,7 +116,7 @@ export const Login = () => {
             color="gray.300"
             fontSize="md"
             _hover={{ bg: "gray.300", color: "gray.50" }}
-            onClick={ () => history.push("/register") }
+            onClick={() => history.push("/register")}
           >
             Cadastrar
           </Button>
