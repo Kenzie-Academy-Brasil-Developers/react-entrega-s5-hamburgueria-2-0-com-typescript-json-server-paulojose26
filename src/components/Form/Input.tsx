@@ -29,14 +29,14 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputBaseProps> = (
   const [checkInput, setCheckInput] = useState<boolean>(false);
   const [borderValid, setBorderValid] = useState<string>("empty");
 
-    useEffect(() => {
-        if (error) {
-            setBorderValid("error");
-        }
-        else if(checkInput){
-            setBorderValid("filled");
-        }
-    }, [error]);
+  useEffect(() => {
+      if (error) {
+          setBorderValid("error");
+      }
+      else if(checkInput){
+          setBorderValid("filled");
+      }
+  }, [error]);
 
   return (
     <FormControl position="relative">

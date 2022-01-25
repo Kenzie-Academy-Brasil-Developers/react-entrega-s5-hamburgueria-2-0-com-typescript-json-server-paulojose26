@@ -13,7 +13,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { FiShoppingBag } from "react-icons/fi";
-import { useHistory } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import { Input } from "../../components/Form/Input";
@@ -26,9 +25,10 @@ interface RegisterData {
   confirm_password: string;
 }
 
+
+
 export const Register = () => {
   const { SingUp } = useUser();
-  const history = useHistory();
 
   const loginSchema = yup.object().shape({
     name: yup.string().required("* Campo Obrigatório"),
@@ -46,13 +46,14 @@ export const Register = () => {
     handleSubmit,
     register,
     formState: { errors },
+    reset
   } = useForm<RegisterData>({
     resolver: yupResolver(loginSchema),
   });
 
   const handleLogin = (data: RegisterData) => {
     SingUp(data).then(() => {
-      history.push("/login");
+      reset();
       toast.success("Cadastro Realizado !");
     }).catch(() => {
       toast.error("Esse email já está sendo utilizado");
@@ -66,7 +67,7 @@ export const Register = () => {
       w="100%"
       h="100vh"
       padding="20px"
-      flexDirection={["column-reverse", "column-reverse", "row"]}
+      flexDirection={["column", "column", "row"]}
       justifyContent={["start", "start", "space-evenly"]}
       alignItems="center"
     >
