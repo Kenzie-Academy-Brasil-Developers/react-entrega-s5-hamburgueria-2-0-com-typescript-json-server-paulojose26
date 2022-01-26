@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { FiShoppingBag } from "react-icons/fi";
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import { Input } from "../../components/Form/Input";
@@ -25,7 +25,7 @@ interface LoginData {
 
 
 export const Login = () => {
-  const { SingIn } = useUser();
+  const { SingIn, token } = useUser();
   const history = useHistory();
 
   const loginSchema = yup.object().shape({
@@ -51,6 +51,10 @@ export const Login = () => {
       toast.error("E-mail e/ou senha está/ão errado(s)");
     });
   };
+
+  if(token){
+    return <Redirect to="/"/>
+  }
 
   return (
     <Flex

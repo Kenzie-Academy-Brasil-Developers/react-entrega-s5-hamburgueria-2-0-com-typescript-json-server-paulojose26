@@ -7,7 +7,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { Link as RouteLink } from "react-router-dom";
+import { Link as RouteLink, Redirect } from "react-router-dom";
 import { Link } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -28,7 +28,7 @@ interface RegisterData {
 
 
 export const Register = () => {
-  const { SingUp } = useUser();
+  const { SingUp, token } = useUser();
 
   const loginSchema = yup.object().shape({
     name: yup.string().required("* Campo Obrigatório"),
@@ -50,6 +50,10 @@ export const Register = () => {
   } = useForm<RegisterData>({
     resolver: yupResolver(loginSchema),
   });
+
+  if(token){
+    return <Redirect to="/"/>
+  }
 
   const handleLogin = (data: RegisterData) => {
     SingUp(data).then(() => {

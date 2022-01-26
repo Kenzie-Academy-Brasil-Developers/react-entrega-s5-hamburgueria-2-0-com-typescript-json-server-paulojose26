@@ -38,7 +38,7 @@ const AuthContext = createContext<UserContextData>({} as UserContextData);
 export const useUser = () => useContext(AuthContext);
 
 export const UserProvider = ({ children }: UserProviderProps) => {
-  const [token, setToken] = useState<string>("");
+  const [token, setToken] = useState<string>(localStorage.getItem("@BurgueKenzie-token") || "");
   const [user, setUser] = useState<User>({} as User);
 
   const getUser = useCallback(async () => {
