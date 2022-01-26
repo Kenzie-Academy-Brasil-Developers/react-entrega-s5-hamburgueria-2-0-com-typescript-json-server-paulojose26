@@ -19,11 +19,11 @@ export const Home = () => {
             toast.error("Produtos não encontrado, tente novamente mais tarde");
         });
         getUser();
-    }, []);
+    }, [getUser, getProducts]);
 
     useEffect(() => {
         getCart(user.id);
-    }, [user]);
+    }, [user, getCart]);
 
     return (
         <Box as="main" w="100%" h="100vh" >
