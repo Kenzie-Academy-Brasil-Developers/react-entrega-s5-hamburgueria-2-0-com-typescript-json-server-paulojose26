@@ -5,11 +5,14 @@ import { useHistory } from "react-router-dom";
 
 import { Search } from "../Form/Search";
 import { useUser } from "../../contexts/UserProvider";
+import { useCart } from "../../contexts/CartProvider";
 
 export const Header = () => {
   const { token, LogOut } = useUser();
+  const { cart } = useCart();
 
   const history = useHistory();
+
 
   return (
     <Flex
@@ -50,7 +53,26 @@ export const Header = () => {
           fontSize="xl"
           ml={["10px", "20px"]}
           color="gray.300"
+          position="relative"
         >
+            <Text
+              position="absolute"
+              as="span"
+              padding="0"
+              bg="green.300"
+              top="-7px"
+              left="12px"
+              w="15px"
+              h="15px"
+              fontSize="12px"
+              color="white"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              borderRadius="2px"
+            >
+              { cart.reduce((total, item) => total + item.qtdProduct, 0) }
+            </Text>
           <FaShoppingCart />
         </Center>
         {!!token ? (

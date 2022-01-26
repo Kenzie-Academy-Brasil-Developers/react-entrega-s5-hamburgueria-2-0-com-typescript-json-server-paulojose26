@@ -13,6 +13,7 @@ interface Product{
     id: string;
     img: string;
     name: string;
+    type: string;
     price: number;
 }
 
@@ -25,7 +26,7 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
     const [products, setProducts] = useState<Product[]>([] as Product[]);
 
     const getProducts = useCallback(async () => {
-        api.get("/products").then(response => {
+        await api.get("/products").then(response => {
             setProducts(response.data);
         }).catch((err) => {
             console.log(err);

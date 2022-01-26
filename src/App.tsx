@@ -7,10 +7,10 @@ const App = () => {
     <>
     <Routes />
     <Toaster
-        position="top-right"
+        position="top-center"
         reverseOrder={false}
         toastOptions={{
-          duration: 2000,
+          duration: 1500,
         }}
       />
     </>
