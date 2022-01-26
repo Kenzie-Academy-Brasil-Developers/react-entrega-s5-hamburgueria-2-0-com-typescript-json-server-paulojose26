@@ -55,6 +55,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       }).then((response) => {
         setUser(response.data);
         setToken(tokenJson);
+        localStorage.setItem("@BurgueKenzie-user", JSON.stringify(response.data));
       })
       .catch(() => {
         localStorage.clear();

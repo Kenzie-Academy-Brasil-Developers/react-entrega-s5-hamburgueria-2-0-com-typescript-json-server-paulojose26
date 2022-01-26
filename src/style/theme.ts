@@ -22,7 +22,7 @@ export const theme = extendTheme({
         },
         blue: {
             400: "#155BCB",
-        }
+        },
     },
     fonts: {
         heading: "Inter",
@@ -44,5 +44,5 @@ export const theme = extendTheme({
                 color: "gray.600",
             },
         },
-    }
+    },
 });

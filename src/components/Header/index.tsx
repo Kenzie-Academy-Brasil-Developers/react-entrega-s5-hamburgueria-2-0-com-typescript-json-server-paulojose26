@@ -1,17 +1,21 @@
-import { Box, Center, Flex, Heading, Text } from "@chakra-ui/react";
+import { Box, Center, Flex, Heading, Text, useDisclosure } from "@chakra-ui/react";
 import { FiLogOut, FiLogIn } from "react-icons/fi";
 import { FaShoppingCart, FaSearch } from "react-icons/fa";
 import { useHistory } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import { Search } from "../Form/Search";
 import { useUser } from "../../contexts/UserProvider";
 import { useCart } from "../../contexts/CartProvider";
+import { ModalCart } from "../Modal/ModalCart";
 
 export const Header = () => {
   const { token, LogOut } = useUser();
   const { cart } = useCart();
 
   const history = useHistory();
+
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
 
   return (
@@ -23,6 +27,7 @@ export const Header = () => {
       alignItems="center"
       bg="gray.50"
     >
+      <ModalCart isOpen={ isOpen } onClose={ onClose } />
       <Box display="flex" justifyContent="center" alignContent="center">
         <Heading as="h1" fontSize={["xl", "2xl"]}>
           Burguer{" "}
@@ -54,6 +59,14 @@ export const Header = () => {
           ml={["10px", "20px"]}
           color="gray.300"
           position="relative"
+          onClick={ () => {
+            if(!!token){
+              onOpen();
+            }
+            else{
+              toast.error("Faça login para continuar");
+            }
+          }}
         >
             <Text
               position="absolute"
